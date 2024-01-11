@@ -5,11 +5,11 @@ env.config();
 
 function createDatabase(){   
     mysql.createConnection({
-    user : process.env.DB_USERNAME,
-    password : process.env.DB_PASSWORD
+    user : 'admin',
+    password : '123123'
     })
     .then((connection) => {   
-    return connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_DATABASE}`)
+    return connection.query(`CREATE DATABASE IF NOT EXISTS ${'user_db'}`)
     })    
     .catch((err) => {
     console.warn(err.stack)
@@ -18,13 +18,12 @@ function createDatabase(){
 
 function fkConfig()
 {
-    // Employee.hasMany(Address, {as : Addresses, foreignKey: "EmployeeId"});
-    // Address.belongsTo(Employee, { foreignKey: "EmployeeId"})    
+    // this would be used if we would not have set up the relationships in the entity models  
 }
 
 function db_init(){
     createDatabase();
-    fkConfig();    
+    //fkConfig();    
 }
 
 export default db_init;

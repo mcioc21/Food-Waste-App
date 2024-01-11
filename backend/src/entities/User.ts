@@ -7,14 +7,13 @@ import { GroupAttributes, GroupCreationAttributes } from './Group';
 export interface UserAttributes{
     UserId : number,
     UserName: string,
-    UserEmail: string,
+    UserEmail: string | null,
     UserPassword: string,
-    // UserProductList: ProductAttributes[],
+    UserProductList: ProductAttributes[],
     // UserGroups: GroupAttributes[]
-   
 }
 
-export interface UserCreationAttributes extends UserAttributes {}
+export interface UserCreationAttributes extends UserAttributes {};
 
 const User : ModelDefined<UserAttributes, UserCreationAttributes> = db.define("User", 
 {
@@ -34,7 +33,7 @@ const User : ModelDefined<UserAttributes, UserCreationAttributes> = db.define("U
     UserEmail:
     {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     UserPassword:

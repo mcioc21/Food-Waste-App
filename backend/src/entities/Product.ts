@@ -7,7 +7,7 @@ export interface ProductAttributes{
     ProductId : number, //primary key
     ProductName: string,
     ProductExpiry: Date,
-    ProductAvailability: boolean,
+    ReservedBy: string,
     UserId: number //foreign key
 }
 
@@ -34,11 +34,12 @@ const Product : ModelDefined<ProductAttributes, ProductCreationAttributes> = db.
         allowNull: false
     },
 
-    ProductAvailability:
+    ReservedBy:
     {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+        type: Sequelize.STRING,
+        allowNull: true
     },
+
     UserId:
     {
         type: Sequelize.INTEGER,

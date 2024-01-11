@@ -1,1 +1,2 @@
-export const Addresses = "Addresses";
+export const Users = "Users";
+export const UserProductList = "UserProductList";

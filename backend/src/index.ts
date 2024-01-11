@@ -2,6 +2,7 @@ import express from "express";
 import env from 'dotenv';
 import cors from "cors";
 import db_init from "./entities/db_init";
+import masterRouter from "./routes/masterRouter";
 
 env.config();
 
@@ -21,6 +22,8 @@ app.use(cors(corsOptions));
 
 db_init();
 
-const port = process.env.PORT || 8001;
+app.use('/api', masterRouter);
+
+const port = process.env.port || 8001;
 app.listen(port);
 console.log('API is runnning at ' + port);

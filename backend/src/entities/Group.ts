@@ -9,6 +9,8 @@ export interface GroupAttributes{
     // GroupMembers: UserAttributes[],
 }
 
+//IMPORTANT: GROUPS ARE NOT IMPLEMENTED YET (might not even be implemented)
+
 export interface GroupCreationAttributes extends UserAttributes {}
 
 const Group : ModelDefined<GroupAttributes, GroupCreationAttributes> = db.define("Group", 

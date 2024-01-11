@@ -4,7 +4,7 @@ import { Like } from "./operators";
 
 async function createProduct(product: ProductCreationAttributes) {
     return await Product.create(product);
-}
+}//not complete? idk if the userProductList updates as well
 
 async function getProductById(id: number) {
     return await Product.findByPk(id);
@@ -46,7 +46,7 @@ async function deleteProduct(id: number) {
         return;
     }
     return await deleteElem.destroy();
-}
+}//not complete? idk if the userProductList updates as well
 
 async function updateProduct(product: ProductCreationAttributes, id: number) {
     const findProduct = await getProductById(product.ProductId);
@@ -57,9 +57,9 @@ async function updateProduct(product: ProductCreationAttributes, id: number) {
     }
 
     return await findProduct.update(product);
-}
+} //not complete? idk if the userProductList updates as well
 
-export default {
+export {
     createProduct,
     getProductById,
     getProducts,

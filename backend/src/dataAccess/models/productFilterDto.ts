@@ -1,6 +1,6 @@
-import paginationDto from "./paginationDto";
+import PaginationDto from "./paginationDto";
 
-export default class ProductFilterDto extends paginationDto {
+export default class ProductFilterDto extends PaginationDto {
     productId!: number | null;
     productName!: string | null;
     productExpiry!: Date | null;

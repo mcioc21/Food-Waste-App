@@ -13,6 +13,8 @@ export interface UserAttributes{
     // UserGroups: GroupAttributes[]
 }
 
+//IMPORTANT: user login made like this is rudimentary and not secure and we may not implement the user login at all
+
 export interface UserCreationAttributes extends UserAttributes {};
 
 const User : ModelDefined<UserAttributes, UserCreationAttributes> = db.define("User", 

@@ -1,5 +1,5 @@
 import express from 'express';
-import {createUser, getUserById, getUsers, deleteUser} from "../dataAccess/UserDA"
+import {createUser, getUserById, getUsers, deleteUser, updateUser} from "../dataAccess/UserDA"
 import userFilterDto from '../dataAccess/models/userFilterDto';
 
 let userRouter = express.Router();
@@ -23,6 +23,9 @@ userRouter.route('/user/:id').delete( async (req, res) => {
   return res.json(await deleteUser(id));
 })
 
-//add put route
+userRouter.route('/user/:id').put( async (req, res) => {
+  let id = parseInt(req.params.id) 
+  return res.json(await updateUser(req.body, id));
+})
 
 export default userRouter;

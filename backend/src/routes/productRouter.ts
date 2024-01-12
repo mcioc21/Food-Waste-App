@@ -1,5 +1,5 @@
 import express from 'express';
-import {createProduct, getProducts} from "../dataAccess/ProductDA"
+import {createProduct, deleteProduct, getProductById, getProducts, updateProduct} from "../dataAccess/ProductDA"
 import productFilterDto from '../dataAccess/models/productFilterDto';
 
 let productRouter = express.Router();
@@ -13,4 +13,19 @@ productRouter.route('/product').get( async (req, res) => {
   return res.json(await getProducts(queryParams));
 })
 
-//add rest of routes for product
+productRouter.route('/product/:id').get( async (req, res) => {
+  let id = parseInt(req.params.id)
+  return res.json(await getProductById(id));
+})
+
+productRouter.route('/product/:id').delete( async (req, res) => {
+  let id = parseInt(req.params.id)
+  return res.json(await deleteProduct(id));
+})
+
+productRouter.route('/product/:id').put( async (req, res) => {
+  let id = parseInt(req.params.id)
+  return res.json(await updateProduct(req.body, id));
+})
+
+export default productRouter;

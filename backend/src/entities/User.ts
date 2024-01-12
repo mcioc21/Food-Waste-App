@@ -1,8 +1,8 @@
 import db from '../dbConfig';
 import Sequelize from 'sequelize';
 import { ModelDefined } from 'sequelize';
-import { ProductAttributes, ProductCreationAttributes } from './Product';
-import { GroupAttributes, GroupCreationAttributes } from './Group';
+import Product, { ProductAttributes, ProductCreationAttributes } from './Product';
+import Group, { GroupAttributes, GroupCreationAttributes } from './Group';
 
 export interface UserAttributes{
     UserId : number,
@@ -45,16 +45,17 @@ const User : ModelDefined<UserAttributes, UserCreationAttributes> = db.define("U
     },    
 });
 
-User.hasMany(db.models.Product, {
+
+User.hasMany(Product, {
     foreignKey: 'UserId',
     as: 'ProductList',
     onDelete: 'CASCADE',});
 
-User.belongsToMany(db.models.Group, {
-    through: 'UserGroup',
-    foreignKey: 'UserId',
-    otherKey: 'GroupId',
-    as: 'Groups',
-    onDelete: 'CASCADE',});
+// User.belongsToMany(Group, {
+//     through: 'UserGroup',
+//     foreignKey: 'UserId',
+//     otherKey: 'GroupId',
+//     as: 'Groups',
+//     onDelete: 'CASCADE',});
 
 export default User;

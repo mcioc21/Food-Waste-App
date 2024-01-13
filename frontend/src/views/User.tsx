@@ -68,6 +68,16 @@ export default function UserList() {
       filter(newFilter);
     }
 
+    async function deleteUser(userId: number) {
+      await remove("/user", userId);
+      let ret = await getUsers(userFilter);
+      setUsers(ret);
+    }
+
+    function editUser(userId: number) {
+      navigate(`/EditUser/${userId}`);
+    }
+
     async function handleChangePage(event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) {
       setPage(newPage);
 
@@ -168,14 +178,14 @@ export default function UserList() {
                       <Button
                         startIcon={<EditIcon />}
                         color="success"
-                        //onClick={() => editUser(row.UserId)}
+                        onClick={() => editUser(row.UserId)}
                       />
                     </TableCell>
                     <TableCell>
                       <Button 
                         startIcon={<CancelIcon />}
                         color="error"
-                        //onClick={() => deleteUser(row.UserId)}
+                        onClick={() => deleteUser(row.UserId)}
                       />
                     </TableCell>
                   </TableRow>

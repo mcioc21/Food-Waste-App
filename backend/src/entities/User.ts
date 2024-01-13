@@ -48,7 +48,7 @@ const User : ModelDefined<UserAttributes, UserCreationAttributes> = db.define("U
 
 User.hasMany(Product, {
     foreignKey: 'UserId',
-    as: 'ProductList',
+    as: 'UserProductList',
     onDelete: 'CASCADE',});
 Product.belongsTo(User, {
     foreignKey: 'UserId',

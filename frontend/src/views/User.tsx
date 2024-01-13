@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {get, remove}  from "../api/Calls";
 import {User}  from "../models/User";
 import Table from '@mui/material/Table';
@@ -68,12 +68,27 @@ export default function UserList() {
       filter(newFilter);
     }
 
-    function handleChangePage(){
+    async function handleChangePage(event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) {
+      setPage(newPage);
+
+      let newFilter = _.cloneDeep(userFilter);
+      newFilter.skip = newPage;
+      await filter(newFilter);
+      setUserFilter(newFilter);
 
     }
 
-    function handleChangeRowsPerPage(){
+    async function handleChangeRowsPerPage(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ){
+      let take = parseInt(event.target.value, 10);
 
+      setRowsPerPage(take);
+      setPage(0);
+
+      let newFilter = _.cloneDeep(userFilter);
+      newFilter.take = take;
+      newFilter.skip = 0;
+      await filter(newFilter);
+      setUserFilter(newFilter);
     }
 
     async function filter(filter: UserFilterDto) {
@@ -169,7 +184,7 @@ export default function UserList() {
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    rowsPerPageOptions={[5, 10, 25]}
                     colSpan={3}
                     count={users.count}
                     rowsPerPage={rowsPerPage}

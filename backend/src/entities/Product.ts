@@ -1,7 +1,7 @@
 import db from '../dbConfig';
 import Sequelize from 'sequelize';
 import { ModelDefined } from 'sequelize';
-import { UserAttributes, UserCreationAttributes } from './User';
+import User, { UserAttributes, UserCreationAttributes } from './User';
 
 export interface ProductAttributes{
     ProductId : number, //primary key
@@ -53,9 +53,6 @@ const Product : ModelDefined<ProductAttributes, ProductCreationAttributes> = db.
     }
 });
 
-Product.belongsTo(db.models.User, {
-    foreignKey: 'UserId',
-    as: 'User',
-    onDelete: 'CASCADE',});
+
 
 export default Product;

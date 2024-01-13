@@ -21,10 +21,136 @@ import _ from "lodash";
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-//add user export
 
 export default function UserList() {
+
+    const [users, setUsers] = useState<PaginationResponse<User>>({ rows: [], count: 0 });
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [page, setPage] = useState(0);
+
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        getUsers().then(d => setUsers(d));
+    })
+
+    async function getUsers() {
+        return (await get("/user")) as PaginationResponse<User>;
+    }
+
+    function newUser(){
+        navigate("/NewUser");
+    }
+
+    function handleChangePage(){
+
+    }
+
+    function handleChangeRowsPerPage(){
+
+    }
+
     return (
-        <div></div>
-    )
+        <div>
+    
+          <Box
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            style={{ marginBottom: '30px' }}
+          >
+    
+            <h1>Filters</h1>
+            <div>
+    
+              <TextField
+                label="userName"
+                // value={userFilter.userName}
+                // onChange={onChangeFilter}
+                name="userName"
+              />
+    
+              <TextField
+                label="userEmail"
+                // value={userFilter.employeeSurName}
+                // onChange={onChangeFilter}
+                name="userEmail"
+              />
+    
+            </div>
+    
+            {/* <div>
+              <Button style={{ marginRight: '8px' }} startIcon={<FilterAltIcon />} variant="contained" onClick={filterUser}>
+                Filter
+              </Button>
+    
+              <Button startIcon={<ClearIcon />} variant="contained" onClick={clearFilters}>
+                Clear Filters
+              </Button>
+            </div> */}
+    
+          </Box>
+    
+          <Button style={{ marginBottom: '20px' }} startIcon={<AddCircleIcon />} variant="contained" onClick={newUser}>New User</Button>
+    
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>User Id</TableCell>
+                  <TableCell>User Name</TableCell>
+                  <TableCell>User Email</TableCell>
+                  <TableCell>Edit</TableCell>
+                  <TableCell>Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {users.rows.map((row) => (
+                  <TableRow key={row.UserId}>
+                    <TableCell align="left">
+                      {row.UserId}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.UserName}
+                    </TableCell>
+                    <TableCell align="left">
+                      {row.UserEmail}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        startIcon={<EditIcon />}
+                        color="success"
+                        //onClick={() => editUser(row.UserId)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Button 
+                        startIcon={<CancelIcon />}
+                        color="error"
+                        //onClick={() => deleteUser(row.UserId)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    colSpan={3}
+                    count={users.count}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </div>
+      );
 }

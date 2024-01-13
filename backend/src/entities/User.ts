@@ -50,6 +50,10 @@ User.hasMany(Product, {
     foreignKey: 'UserId',
     as: 'ProductList',
     onDelete: 'CASCADE',});
+Product.belongsTo(User, {
+    foreignKey: 'UserId',
+    as: 'User',
+    onDelete: 'CASCADE',});
 
 // User.belongsToMany(Group, {
 //     through: 'UserGroup',

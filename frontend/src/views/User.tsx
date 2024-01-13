@@ -17,7 +17,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { UserFilterDto } from "../models/UserFilterDto";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ClearIcon from '@mui/icons-material/Clear';
-import _ from "lodash";
+import _, { set } from "lodash";
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -27,19 +27,45 @@ export default function UserList() {
     const [users, setUsers] = useState<PaginationResponse<User>>({ rows: [], count: 0 });
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
+    const [userFilter, setUserFilter] = useState<UserFilterDto>({
+      userName: "",
+      userEmail: "",
+      take: 5,
+      skip: 0
+    });
 
     const navigate = useNavigate();
     
     useEffect(() => {
-        getUsers().then(d => setUsers(d));
+        getUsers(userFilter).then(d => setUsers(d));
     })
 
-    async function getUsers() {
-        return (await get("/user")) as PaginationResponse<User>;
+    async function getUsers(userFilter : UserFilterDto) {
+        return (await get("/user", userFilter)) as PaginationResponse<User>;
     }
 
     function newUser(){
         navigate("/NewUser");
+    }
+
+    function onChangeFilter(event: ChangeEvent<HTMLInputElement>) {
+      event.preventDefault();
+      setUserFilter({ ...userFilter, [event.target.name]: event.target.value });
+    }
+
+    async function filterUser() {
+      setPage(0);
+      let usrFilter = _.cloneDeep(userFilter);
+      usrFilter.skip = 0;
+      filter(usrFilter);
+    }
+
+    async function clearFilters() {
+      let newFilter = { userName: "", userEmail: "", take: 5, skip: 0};
+      setPage(0);
+      setRowsPerPage(5);
+      setUserFilter(newFilter);
+      filter(newFilter);
     }
 
     function handleChangePage(){
@@ -48,6 +74,11 @@ export default function UserList() {
 
     function handleChangeRowsPerPage(){
 
+    }
+
+    async function filter(filter: UserFilterDto) {
+      let filterUser = await getUsers(filter);
+      setUsers(filterUser);
     }
 
     return (
@@ -67,21 +98,21 @@ export default function UserList() {
     
               <TextField
                 label="userName"
-                // value={userFilter.userName}
-                // onChange={onChangeFilter}
+                value={userFilter.userName}
+                onChange={onChangeFilter}
                 name="userName"
               />
     
               <TextField
                 label="userEmail"
-                // value={userFilter.employeeSurName}
-                // onChange={onChangeFilter}
+                value={userFilter.userEmail}
+                onChange={onChangeFilter}
                 name="userEmail"
               />
     
             </div>
     
-            {/* <div>
+            <div>
               <Button style={{ marginRight: '8px' }} startIcon={<FilterAltIcon />} variant="contained" onClick={filterUser}>
                 Filter
               </Button>
@@ -89,7 +120,7 @@ export default function UserList() {
               <Button startIcon={<ClearIcon />} variant="contained" onClick={clearFilters}>
                 Clear Filters
               </Button>
-            </div> */}
+            </div>
     
           </Box>
     

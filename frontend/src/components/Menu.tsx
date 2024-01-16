@@ -33,9 +33,9 @@ function ResponsiveAppBar() {
   }
 
   return (
-    <AppBar className='menu' position="static">
+    <AppBar className='menu' position="static" sx={{background: '#7CFC00'}}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters >
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -80,7 +80,7 @@ function ResponsiveAppBar() {
               <Button
                 key={index}
                 onClick={() => navigation(page.path)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'black', display: 'block' }}
               >
                 {page.name}
               </Button>

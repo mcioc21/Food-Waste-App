@@ -53,4 +53,10 @@ async function remove(url: string, id: any) {
     )).data;
 }
 
-export { get, post, put, remove } 
+async function last_insert_row_id() {
+    return (await api.get(
+        "/last_insert_row_id"
+    )).data;
+}
+
+export { get, post, put, remove, last_insert_row_id } 

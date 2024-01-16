@@ -1,3 +1,4 @@
+import { Sequelize, QueryTypes } from "sequelize";
 import db from "../dbConfig";
 import Product from "../entities/Product";
 import User, { UserCreationAttributes } from "../entities/User";
@@ -108,10 +109,18 @@ async function getUsers(userFilter: UserFilterDto) {
     }
   }
 
+  async function last_insert_row_id() {
+    const result = await db.query("SELECT COUNT(*) AS count FROM user", { type: QueryTypes.SELECT, });
+    console.log(result);
+    const res = result[0];
+    return res;
+  }
+
  export {
     createUser,
     getUserById,
     getUsers,
     deleteUser,
-    updateUser
+    updateUser,
+    last_insert_row_id
  }

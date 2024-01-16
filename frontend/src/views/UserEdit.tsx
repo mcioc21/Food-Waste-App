@@ -4,13 +4,18 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useNavigate, useParams } from "react-router-dom";
-import { post, get, put } from "../api/Calls";
+import { post, get, put, last_insert_row_id } from "../api/Calls";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Product } from "../models/Product";
-import _ from 'lodash';
+import _, { last } from 'lodash';
 import EditIcon from '@mui/icons-material/Edit';
 
 export default function UserEdit() {
+    //const user_id = parseInt(last_insert_row_id());
+    //const [user_id, setUser_id] = useState(0);
+
+
+
     const [user, setUser] = useState<User>({ 
         UserId: 0,
         UserName: "", 
@@ -34,10 +39,12 @@ export default function UserEdit() {
     const { id } = useParams();
 
     useEffect(() => {
+        get("/last_insert_row_id").then(d => { console.log(d); setUser({ ...user, UserId: d.count + 1 }); });
         if(!id)
             return;
-
-        get("/user/", null, id).then(d => setUser(d));
+        
+        get("/user/", null, id).then(d => { setUser(d);
+             });
     }, [])
 
     function onChangeUser(event: ChangeEvent<HTMLInputElement>) {

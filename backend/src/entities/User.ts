@@ -41,7 +41,7 @@ const User : ModelDefined<UserAttributes, UserCreationAttributes> = db.define("U
     UserPassword:
     {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },    
 });
 
